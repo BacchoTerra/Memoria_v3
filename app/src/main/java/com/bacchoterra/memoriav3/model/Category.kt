@@ -7,7 +7,8 @@ import androidx.room.PrimaryKey
 data class Category(
     val name: String,
     val isLocked: Boolean = false,
-    @PrimaryKey(autoGenerate = true) val id: Int
+    val lastNote:String,
+    @PrimaryKey(autoGenerate = true) val id: Int = 0
 ) {
 
 

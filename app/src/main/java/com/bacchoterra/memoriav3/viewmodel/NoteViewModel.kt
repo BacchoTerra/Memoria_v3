@@ -28,11 +28,11 @@ class NoteViewModel(private val repo: NoteRepository):ViewModel() {
 
 }
 
-class NoteViewModelFactory(repo:NoteRepository): ViewModelProvider.Factory{
+class NoteViewModelFactory(val repo:NoteRepository): ViewModelProvider.Factory{
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
 
         if(modelClass.isAssignableFrom(NoteViewModel::class.java)){
-            return modelClass as T
+            return NoteViewModel(repo) as T
         }
 
         throw IllegalArgumentException("Unknown viewModel class")

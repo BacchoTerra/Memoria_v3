@@ -11,6 +11,8 @@ data class Note(
     val timeStamp: Long,
     val importance:Int = 0,
     val photoUri:String? = null,
-    @PrimaryKey(autoGenerate = true) val id: Int
+    @PrimaryKey(autoGenerate = true) val id: Int = 0
 ) {
+
+
 }

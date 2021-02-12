@@ -33,7 +33,7 @@ class CategoryViewModelFactory(val repo:CategoryRepo) : ViewModelProvider.Factor
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
 
         if (modelClass.isAssignableFrom(CategoryViewModel::class.java)){
-            return modelClass as T
+            return CategoryViewModel(repo) as T
         }
 
         throw IllegalArgumentException("Unknown viewModel class")
