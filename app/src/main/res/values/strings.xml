@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">Memoria v3</string>
+    <string name="hello">Hello..</string>
+    <string name="user">User</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="categories">Categories</string>
+    <string name="main_category">Main category</string>
+    <string name="search">Search</string>
 </resources>

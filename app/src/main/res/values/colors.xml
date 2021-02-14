@@ -7,4 +7,21 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+
+    <color name="colorPrimary">#1E2136</color>
+    <color name="colorAccent">#ADB6F6</color>
+
+    <color name="darkBlueBackgroung">#1E2136</color>
+    <color name="lightBlueBackground">#D3D7DC</color>
+
+
+    <color name="textColorOnDarkBackground">#D3D7DC</color>
+    <color name="textColorOnLightBackground">#474A5B</color>
+
+
+
+    <color name="tabLayoutSelectedTextColor">#474A5B</color>
+    <color name="tabLayoutUnselectedTextColor">#ACADAD</color>
+
+
 </resources>
