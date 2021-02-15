@@ -87,4 +87,19 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/TabLayout"
         app:layout_constraintVertical_bias="1.0" />
+
+    <TextView
+        android:id="@+id/txtSettings"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="32dp"
+        android:drawablePadding="8dp"
+        app:drawableTint="@color/textColorOnDarkBackground"
+        android:fontFamily="@font/roboto"
+        android:text="@string/settings"
+        android:textColor="@color/textColorOnDarkBackground"
+        app:layout_constraintBottom_toBottomOf="@+id/TxtDate"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/TxtDate"
+        app:drawableEndCompat="@drawable/ic_baseline_settings_24" />
 </androidx.constraintlayout.widget.ConstraintLayout>

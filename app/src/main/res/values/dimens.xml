@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <dimen name="tab_layout_radius">5dp</dimen>
+    <dimen name="tab_layout_radius">8dp</dimen>
 
 
 </resources>
