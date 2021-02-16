@@ -24,4 +24,14 @@
     <string name="saved_fav_animal_key">saved_fav_animal_key</string>
     <string name="data_saved">Data updated</string>
     <string name="how_should_we_call_you">How should we call you?</string>
+    <string name="insert_your_security_word_to_change_your_password">Insert your security word to change your password</string>
+    <string name="change_password">Change Password</string>
+    <string name="new_password">New password</string>
+    <string name="password_change">Password change</string>
+    <string name="save_changes">Save changes</string>
+    <string name="wrong_security_word">Wrong security word</string>
+    <string name="password_change_successful">Password changed</string>
+    <string name="settings_updated">Settings updated</string>
+    <string name="name_updated">Name updated</string>
+    <string name="min_4_chars">Minimum of 4 chars</string>
 </resources>

@@ -23,5 +23,7 @@
     <color name="tabLayoutSelectedTextColor">#474A5B</color>
     <color name="tabLayoutUnselectedTextColor">#ACADAD</color>
 
+    <color name="successfulGreenColor">#006f3c</color>
+
 
 </resources>

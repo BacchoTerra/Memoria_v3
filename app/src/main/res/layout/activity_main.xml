@@ -21,7 +21,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/TxtUserName"
+        android:id="@+id/txtUserName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
@@ -41,8 +41,8 @@
         android:text="Feb, 2021"
         android:textColor="@color/textColorOnDarkBackground"
         android:textSize="18sp"
-        app:layout_constraintStart_toStartOf="@+id/TxtUserName"
-        app:layout_constraintTop_toBottomOf="@+id/TxtUserName" />
+        app:layout_constraintStart_toStartOf="@+id/txtUserName"
+        app:layout_constraintTop_toBottomOf="@+id/txtUserName" />
 
     <com.ogaclejapan.smarttablayout.SmartTabLayout
         android:id="@+id/TabLayout"

@@ -6,7 +6,7 @@ import android.content.SharedPreferences
 import android.util.Log
 import com.bacchoterra.memoriav3.R
 
-class PrefsUtil(private val activity: Activity) {
+class PrefsUtil(private val context: Context) {
 
     companion object {
         const val NO_PASSWORD_VALUE = 0
@@ -14,38 +14,32 @@ class PrefsUtil(private val activity: Activity) {
         const val NO_ANIMAL_VALUE = "no_animal"
     }
 
-    private lateinit var prefsArchive: SharedPreferences
-
-    init {
-
-        prefsArchive = activity.getSharedPreferences(
-            activity.getString(R.string.preference_arch_key),
-            Context.MODE_PRIVATE
-        )
-
-    }
+    private var prefsArchive: SharedPreferences = context.getSharedPreferences(
+        context.getString(R.string.preference_arch_key),
+        Context.MODE_PRIVATE
+    )
 
 
     fun getSavedUserName(): String? {
-        return prefsArchive.getString(activity.getString(R.string.saved_user_name_key), NO_NAME_VALUE)
+        return prefsArchive.getString(context.getString(R.string.saved_user_name_key), NO_NAME_VALUE)
     }
 
     fun getSavedPassword(): Int {
 
         return prefsArchive.getInt(
-            activity.getString(R.string.saved_password_key),
+            context.getString(R.string.saved_password_key),
             NO_PASSWORD_VALUE
         )
     }
 
     fun getSavedFavAnimal(): String? {
-        return prefsArchive.getString(activity.getString(R.string.saved_fav_animal_key), NO_ANIMAL_VALUE)
+        return prefsArchive.getString(context.getString(R.string.saved_fav_animal_key), NO_ANIMAL_VALUE)
     }
 
     fun saveUserName(name: String) {
 
         prefsArchive.edit()?.apply {
-            putString(activity.getString(R.string.saved_user_name_key), name)
+            putString(context.getString(R.string.saved_user_name_key), name)
             apply()
         }
 
@@ -57,7 +51,7 @@ class PrefsUtil(private val activity: Activity) {
         val intValue = Integer.valueOf(password)
 
         prefsArchive.edit().apply {
-            putInt(activity.getString(R.string.saved_password_key), intValue)
+            putInt(context.getString(R.string.saved_password_key), intValue)
             apply()
         }
         Log.i("Porsche", "savePassword: $password")
@@ -66,7 +60,7 @@ class PrefsUtil(private val activity: Activity) {
     fun saveFavAnimal(animal: String) {
         prefsArchive.edit().apply {
 
-            putString(activity.getString(R.string.saved_fav_animal_key), animal)
+            putString(context.getString(R.string.saved_fav_animal_key), animal)
             apply()
         }
         Log.i("Porsche", "saveAnimal: $animal")
