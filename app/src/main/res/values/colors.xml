@@ -11,7 +11,7 @@
     <color name="colorPrimary">#1E2136</color>
     <color name="colorAccent">#ADB6F6</color>
 
-    <color name="darkBlueBackgroung">#1E2136</color>
+    <color name="darkBlueBackground">#1E2136</color>
     <color name="lightBlueBackground">#D3D7DC</color>
 
 
@@ -24,6 +24,9 @@
     <color name="tabLayoutUnselectedTextColor">#ACADAD</color>
 
     <color name="successfulGreenColor">#006f3c</color>
+    <color name="catColor3">#87033866</color>
+    <color name="catColor2">#870F7985</color>
+    <color name="catColor1">#87E0A912</color>
 
 
 </resources>

@@ -7,6 +7,7 @@ import androidx.viewpager.widget.ViewPager;
 
 import com.bacchoterra.memoriav3.R;
 import com.bacchoterra.memoriav3.fragments.BlankFragment;
+import com.bacchoterra.memoriav3.fragments.FragmentCategories;
 import com.ogaclejapan.smarttablayout.SmartTabLayout;
 import com.ogaclejapan.smarttablayout.utils.v4.FragmentPagerItemAdapter;
 import com.ogaclejapan.smarttablayout.utils.v4.FragmentPagerItems;
@@ -29,7 +30,7 @@ public class TabLayoutUtil {
     public void createAdapter(){
 
         FragmentPagerItemAdapter adapter = new FragmentPagerItemAdapter(fm, FragmentPagerItems.with(context)
-                .add(R.string.categories, BlankFragment.class)
+                .add(R.string.categories, FragmentCategories.class)
                 .add(R.string.main_category, BlankFragment.class)
                 .add(R.string.search, BlankFragment.class)
                 .create());

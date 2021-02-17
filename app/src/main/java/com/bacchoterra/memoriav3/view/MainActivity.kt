@@ -4,14 +4,30 @@ import android.annotation.SuppressLint
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
+import android.widget.Toast
+import androidx.activity.viewModels
+import androidx.lifecycle.ViewModelProvider
+import com.bacchoterra.memoriav3.MemoriaApplication
 import com.bacchoterra.memoriav3.databinding.ActivityMainBinding
+import com.bacchoterra.memoriav3.databinding.SheetNewCategoryBinding
+import com.bacchoterra.memoriav3.fragments.NewCategoryBottomSheet
 import com.bacchoterra.memoriav3.utils.PrefsUtil
 import com.bacchoterra.memoriav3.utils.TabLayoutUtil
+import com.bacchoterra.memoriav3.viewmodel.CategoryViewModel
+import com.bacchoterra.memoriav3.viewmodel.CategoryViewModelFactory
 import java.util.*
 
 class MainActivity : AppCompatActivity(){
 
+    //Layout components
     private lateinit var binder: ActivityMainBinding
+
+    //ViewModel
+
+    private val catViewModel: CategoryViewModel by viewModels {
+        CategoryViewModelFactory((application as MemoriaApplication).catRepository)
+    }
 
 
 
@@ -23,7 +39,7 @@ class MainActivity : AppCompatActivity(){
         displayCurrentTime()
         getUserName()
 
-        binder.txtSettings.setOnClickListener{
+        binder.imageSettings.setOnClickListener{
 
 
 

@@ -34,4 +34,10 @@
     <string name="settings_updated">Settings updated</string>
     <string name="name_updated">Name updated</string>
     <string name="min_4_chars">Minimum of 4 chars</string>
+    <string name="create_new">Create new</string>
+    <string name="category_title">Category title</string>
+    <string name="lock_this_category">Lock this category</string>
+    <string name="no_last_note_body">Category is empty</string>
+    <string name="delete">Delete</string>
+    <string name="set_as_favorite">Set as favorite</string>
 </resources>
