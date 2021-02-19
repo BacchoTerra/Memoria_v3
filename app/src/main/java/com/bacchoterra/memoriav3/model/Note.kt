@@ -2,6 +2,7 @@ package com.bacchoterra.memoriav3.model
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import java.io.Serializable
 
 @Entity(tableName = "note_table")
 data class Note(
@@ -12,7 +13,7 @@ data class Note(
     val importance:Int = 0,
     val photoUri:String? = null,
     @PrimaryKey(autoGenerate = true) val id: Int = 0
-) {
+):Serializable {
 
 
 }

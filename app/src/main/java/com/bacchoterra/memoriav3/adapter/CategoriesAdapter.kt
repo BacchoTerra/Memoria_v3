@@ -1,6 +1,7 @@
 package com.bacchoterra.memoriav3.adapter
 
-import android.content.Context
+import android.app.Activity
+import android.content.Intent
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -10,15 +11,15 @@ import android.widget.PopupMenu
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bacchoterra.memoriav3.R
 import com.bacchoterra.memoriav3.model.Category
-import com.bacchoterra.memoriav3.viewmodel.CategoryViewModel
+import com.bacchoterra.memoriav3.view.AddNoteActivity
+import com.bacchoterra.memoriav3.view.NoteActivity
 
-class CategoriesAdapter(val context:Context, private val mListener:OnMenuItemSelectedListener): ListAdapter<Category, CategoriesAdapter.MyViewHolder>(CategoryComparator()) {
+class CategoriesAdapter(val context:Activity, private val mListener:OnMenuItemSelectedListener): ListAdapter<Category, CategoriesAdapter.MyViewHolder>(CategoryComparator()) {
 
     private var count = 0
 
@@ -56,6 +57,13 @@ class CategoriesAdapter(val context:Context, private val mListener:OnMenuItemSel
             true
         }
 
+        holder.background.setOnClickListener{
+
+            openNotesActivity(position)
+
+        }
+
+
 
     }
 
@@ -92,6 +100,17 @@ class CategoriesAdapter(val context:Context, private val mListener:OnMenuItemSel
 
 
         menu.show()
+
+
+    }
+
+    private fun openNotesActivity(position:Int){
+
+        val intent = Intent(context,NoteActivity::class.java).apply {
+            putExtra(context.getString(R.string.category_key),getItem(position))
+        }
+
+        context.startActivity(intent)
 
 
     }

@@ -14,6 +14,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.bacchoterra.memoriav3.MemoriaApplication
 import com.bacchoterra.memoriav3.R
 import com.bacchoterra.memoriav3.adapter.CategoriesAdapter
@@ -21,10 +22,11 @@ import com.bacchoterra.memoriav3.databinding.FragmentCategoriesBinding
 import com.bacchoterra.memoriav3.model.Category
 import com.bacchoterra.memoriav3.viewmodel.CategoryViewModel
 import com.bacchoterra.memoriav3.viewmodel.CategoryViewModelFactory
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 
 class FragmentCategories : Fragment(), NewCategoryBottomSheet.CategoryCreatedListener,
-    CategoriesAdapter.OnMenuItemSelectedListener {
+    CategoriesAdapter.OnMenuItemSelectedListener, View.OnClickListener {
 
     //ViewModel
     private val catViewModel by lazy {
@@ -37,6 +39,8 @@ class FragmentCategories : Fragment(), NewCategoryBottomSheet.CategoryCreatedLis
 
     //Layout
     private lateinit var binder: FragmentCategoriesBinding
+    private lateinit var recyclerView: RecyclerView
+    private lateinit var fabNewCategory: FloatingActionButton
 
     //Recycler adapter
     private lateinit var adapter: CategoriesAdapter
@@ -48,28 +52,28 @@ class FragmentCategories : Fragment(), NewCategoryBottomSheet.CategoryCreatedLis
     ): View {
         binder = FragmentCategoriesBinding.inflate(inflater)
 
+        init()
         initRecyclerView()
-
-        binder.fabAddCategory.setOnClickListener {
-
-            val categoryBottomSheet = NewCategoryBottomSheet()
-            categoryBottomSheet.show(childFragmentManager, null)
-
-        }
-
         observeData()
 
-
         return binder.root
+    }
+
+    private fun init() {
+
+        recyclerView = binder.fragCatCategoriesRecyclerView
+        fabNewCategory = binder.fragCatFabAddCategory
+        fabNewCategory.setOnClickListener(this)
+
     }
 
     private fun initRecyclerView() {
 
         //binder.categoriesRecyclerView.layoutManager = GridLayoutManager(requireContext(),2,GridLayoutManager.VERTICAL,false)
-        binder.categoriesRecyclerView.layoutManager = LinearLayoutManager(requireContext())
-        adapter = CategoriesAdapter(requireContext(), this)
-        binder.categoriesRecyclerView.adapter = adapter
-        binder.categoriesRecyclerView.setHasFixedSize(true)
+        recyclerView.layoutManager = LinearLayoutManager(requireContext())
+        adapter = CategoriesAdapter(requireActivity(), this)
+        recyclerView.adapter = adapter
+        recyclerView.setHasFixedSize(true)
 
     }
 
@@ -102,5 +106,16 @@ class FragmentCategories : Fragment(), NewCategoryBottomSheet.CategoryCreatedLis
 
     override fun onFavorite(category: Category) {
 
+    }
+
+    override fun onClick(p0: View?) {
+        when (p0?.id) {
+
+            fabNewCategory.id -> {
+                val categoryBottomSheet = NewCategoryBottomSheet()
+                categoryBottomSheet.show(childFragmentManager, null)
+            }
+
+        }
     }
 }

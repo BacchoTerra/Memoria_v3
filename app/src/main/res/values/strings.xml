@@ -40,4 +40,8 @@
     <string name="no_last_note_body">Category is empty</string>
     <string name="delete">Delete</string>
     <string name="set_as_favorite">Set as favorite</string>
+    <string name="category_key">cat_key</string>
+    <string name="title_optional">Title (Optional)</string>
+    <string name="importance">Importance:</string>
+    <string name="note_body">Note body</string>
 </resources>
