@@ -10,7 +10,7 @@ import com.bacchoterra.memoriav3.dao.NoteDao
 import com.bacchoterra.memoriav3.model.Category
 import com.bacchoterra.memoriav3.model.Note
 
-@Database(entities = [Note::class, Category::class], version = 1, exportSchema = false)
+@Database(entities = [Note::class, Category::class], version = 2, exportSchema = false)
 abstract class NoteDatabase() : RoomDatabase() {
 
     abstract fun getCatDao(): CategoryDao

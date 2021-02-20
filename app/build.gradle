@@ -69,4 +69,7 @@ dependencies {
     //https://github.com/ogaclejapan/SmartTabLayout
     implementation 'com.ogaclejapan.smarttablayout:library:2.0.0'
     implementation 'com.ogaclejapan.smarttablayout:utils-v4:2.0.0'
+
+    //https://github.com/VMadalin/easypermissions-ktx
+    implementation 'com.vmadalin:easypermissions-ktx:0.1.0'
 }

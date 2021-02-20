@@ -6,7 +6,7 @@ import java.io.Serializable
 
 @Entity(tableName = "note_table")
 data class Note(
-    val noteTitle: String,
+    val noteTitle: String? = null,
     val noteBody: String,
     val category: String,
     val timeStamp: Long,

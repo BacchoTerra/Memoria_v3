@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.TextView
 import androidx.activity.result.ActivityResultLauncher
@@ -37,15 +38,12 @@ class NoteActivity : AppCompatActivity(), View.OnClickListener {
     private lateinit var category: Category
 
     //ActivityResult stuff
+    lateinit var returnedNote: Note
     private lateinit var resultLauncher: ActivityResultLauncher<Intent>
 
     //ViewModel
-    private val categoryViewModel: CategoryViewModel by viewModels {
-        CategoryViewModelFactory((application as MemoriaApplication).catRepository)
-    }
-    private val noteViewModel: NoteViewModel by lazy {
-        ViewModelProvider(this, NoteViewModelFactory((application as MemoriaApplication).noteRepository)).get(NoteViewModel::class.java)
-    }
+    private lateinit var noteViewModel:NoteViewModel
+    private lateinit var catViewModel:CategoryViewModel
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -55,7 +53,8 @@ class NoteActivity : AppCompatActivity(), View.OnClickListener {
         init()
         retrieveCategory()
         initToolbar(category.name)
-        setUpActivityResult()
+        initViewModels()
+        handleCreatedNoteCallback()
 
     }
 
@@ -67,17 +66,6 @@ class NoteActivity : AppCompatActivity(), View.OnClickListener {
         fabAddNote = binder.activityNoteFabAddNote
         fabAddNote.setOnClickListener(this)
 
-    }
-
-    private fun setUpActivityResult() {
-        resultLauncher =
-            registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
-
-                if (it.resultCode == Activity.RESULT_OK) {
-                    val data: Intent? = it.data
-
-                }
-            }
     }
 
     private fun insertNewNote(note: Note) {
@@ -115,6 +103,29 @@ class NoteActivity : AppCompatActivity(), View.OnClickListener {
 
     }
 
+    private fun handleCreatedNoteCallback() {
+
+        resultLauncher =
+            registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+
+                if (result.resultCode == RESULT_OK) {
+                    returnedNote = result.data?.extras?.get(getString(R.string.note_key)) as Note
+                    Log.i("Porsche", ": ${returnedNote.photoUri}")
+                    insertNewNote(returnedNote)
+                }
+
+            }
+
+    }
+
+    private fun initViewModels(){
+
+        noteViewModel = ViewModelProvider(this,NoteViewModelFactory((application as MemoriaApplication).noteRepository)).get(NoteViewModel::class.java)
+        catViewModel = ViewModelProvider(this,CategoryViewModelFactory((application as MemoriaApplication).catRepository)).get(CategoryViewModel::class.java)
+
+
+    }
+
     override fun onNavigateUp(): Boolean {
 
         finish()
@@ -126,7 +137,12 @@ class NoteActivity : AppCompatActivity(), View.OnClickListener {
 
         when (p0?.id) {
 
-            fabAddNote.id -> resultLauncher.launch(Intent(this, AddNoteActivity::class.java))
+            fabAddNote.id -> {
+
+                val intent = Intent(this, AddNoteActivity::class.java)
+                intent.putExtra(getString(R.string.category_key), category)
+                resultLauncher.launch(intent)
+            }
 
         }
     }
