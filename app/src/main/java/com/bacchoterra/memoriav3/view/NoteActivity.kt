@@ -1,12 +1,15 @@
 package com.bacchoterra.memoriav3.view
 
 import android.app.Activity
+import android.app.AlertDialog
+import android.content.DialogInterface
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.TextView
+import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
@@ -22,13 +25,15 @@ import com.bacchoterra.memoriav3.adapter.NotesAdapter
 import com.bacchoterra.memoriav3.databinding.ActivityNoteBinding
 import com.bacchoterra.memoriav3.model.Category
 import com.bacchoterra.memoriav3.model.Note
+import com.bacchoterra.memoriav3.utils.SwipeUtil
 import com.bacchoterra.memoriav3.viewmodel.CategoryViewModel
 import com.bacchoterra.memoriav3.viewmodel.CategoryViewModelFactory
 import com.bacchoterra.memoriav3.viewmodel.NoteViewModel
 import com.bacchoterra.memoriav3.viewmodel.NoteViewModelFactory
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import java.text.FieldPosition
 
-class NoteActivity : AppCompatActivity(), View.OnClickListener {
+class NoteActivity : AppCompatActivity(), View.OnClickListener, SwipeUtil.OnSwipedListener {
 
     //Layout components
     private lateinit var binder: ActivityNoteBinding
@@ -49,7 +54,7 @@ class NoteActivity : AppCompatActivity(), View.OnClickListener {
     private lateinit var catViewModel: CategoryViewModel
 
     //RecyclerViewStuff
-    private lateinit var adapter:NotesAdapter
+    private lateinit var adapter: NotesAdapter
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -118,7 +123,10 @@ class NoteActivity : AppCompatActivity(), View.OnClickListener {
 
                 if (result.resultCode == RESULT_OK) {
                     returnedNote = result.data?.extras?.get(getString(R.string.note_key)) as Note
-                    Log.i("Porsche", ":uri: ${returnedNote.photoUri} and body:  ${returnedNote.noteBody} and title : ${returnedNote.noteTitle}")
+                    Log.i(
+                        "Porsche",
+                        ":uri: ${returnedNote.photoUri} and body:  ${returnedNote.noteBody} and title : ${returnedNote.noteTitle}"
+                    )
                     insertNewNote(returnedNote)
                 }
 
@@ -140,19 +148,21 @@ class NoteActivity : AppCompatActivity(), View.OnClickListener {
 
     }
 
-    private fun buildRecyclerView(){
+    private fun buildRecyclerView() {
 
-        adapter = NotesAdapter(this)
+        adapter = NotesAdapter(this, supportFragmentManager)
         recyclerView.adapter = adapter
         recyclerView.layoutManager = LinearLayoutManager(this)
         recyclerView.setHasFixedSize(true)
+        val swipeUtil = SwipeUtil()
+        swipeUtil.addSwipeToRecyclerView(this, recyclerView)
 
 
     }
 
-    private fun retrieveNotes(){
+    private fun retrieveNotes() {
 
-        noteViewModel.getAllNotesFromCat(category.name).observe(this,{
+        noteViewModel.getAllNotesFromCat(category.name).observe(this, {
 
             adapter.submitList(it)
 
@@ -179,6 +189,34 @@ class NoteActivity : AppCompatActivity(), View.OnClickListener {
             }
 
         }
+    }
+
+    override fun onSwiped(position: Int) {
+        showDeletionDialog(position)
+    }
+
+    private fun showDeletionDialog(position: Int) {
+
+        val builder = AlertDialog.Builder(this)
+        builder.setTitle(R.string.delete_item)
+            .setMessage(R.string.permanent_action)
+            .setCancelable(true)
+        builder.setPositiveButton(android.R.string.yes) { dialog, which ->
+            noteViewModel.delete(adapter.getNote(position))
+        }
+
+        builder.setNegativeButton(android.R.string.cancel) { dialog, which ->
+            adapter.notifyItemChanged(position)
+        }
+
+        builder.setOnCancelListener {
+            adapter.notifyItemChanged(position)
+        }
+
+        val alertDialog = builder.create()
+        alertDialog.show()
+
+
     }
 
 }

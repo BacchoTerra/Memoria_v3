@@ -45,4 +45,10 @@
     <string name="importance">Importance:</string>
     <string name="note_body">Note body</string>
     <string name="note_key">note_key</string>
+    <string name="image_key">image_key</string>
+    <string name="image">Image:</string>
+    <string name="delete_item">Delete item</string>
+    <string name="permanent_action">This is a permanent action</string>
+    <string name="access">Access</string>
+    <string name="wrong_password">Wrong password</string>
 </resources>

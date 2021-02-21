@@ -2,6 +2,8 @@ package com.bacchoterra.memoriav3.adapter
 
 import android.app.Activity
 import android.content.Intent
+import android.os.Bundle
+import android.util.DisplayMetrics
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -11,23 +13,29 @@ import android.widget.PopupMenu
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
+import androidx.fragment.app.FragmentManager
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bacchoterra.memoriav3.R
+import com.bacchoterra.memoriav3.fragments.FragmentInsertPassword
 import com.bacchoterra.memoriav3.model.Category
-import com.bacchoterra.memoriav3.view.AddNoteActivity
 import com.bacchoterra.memoriav3.view.NoteActivity
 
-class CategoriesAdapter(val context:Activity, private val mListener:OnMenuItemSelectedListener): ListAdapter<Category, CategoriesAdapter.MyViewHolder>(CategoryComparator()) {
+
+class CategoriesAdapter(
+    val context: Activity,
+    private val mListener: OnMenuItemSelectedListener,
+    val fragManager: FragmentManager
+) : ListAdapter<Category, CategoriesAdapter.MyViewHolder>(CategoryComparator()){
 
     private var count = 0
 
 
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
 
-        val itemList = LayoutInflater.from(parent.context).inflate(R.layout.row_category,parent,false)
+        val itemList =
+            LayoutInflater.from(parent.context).inflate(R.layout.row_category, parent, false)
         return MyViewHolder(itemList)
     }
 
@@ -37,15 +45,15 @@ class CategoriesAdapter(val context:Activity, private val mListener:OnMenuItemSe
 
         holder.txtTitle.text = cat.name
 
-        if (cat.lastNoteBody.isBlank()){
+        if (cat.lastNoteBody.isBlank()) {
             holder.txtLastNote.text = context.getString(R.string.no_last_note_body)
-        }else{
+        } else {
             holder.txtLastNote.text = cat.lastNoteBody
         }
 
-        if (cat.isLocked){
+        if (cat.isLocked) {
             holder.imageLocked.visibility = View.VISIBLE
-        }else{
+        } else {
             holder.imageLocked.visibility = View.GONE
         }
 
@@ -57,38 +65,40 @@ class CategoriesAdapter(val context:Activity, private val mListener:OnMenuItemSe
             true
         }
 
-        holder.background.setOnClickListener{
+        holder.background.setOnClickListener {
 
-            openNotesActivity(position)
+            checkForPassword(cat, position)
 
         }
 
 
-
     }
 
-    private fun dynamicChangeBackground(holder: MyViewHolder){
+    private fun dynamicChangeBackground(holder: MyViewHolder) {
 
-        if (count ==0){
-            holder.background.background = ContextCompat.getDrawable(context,R.drawable.shape_cat_1)
-            count ++
-        }else if(count ==1){
-            holder.background.background = ContextCompat.getDrawable(context,R.drawable.shape_cat_2)
-            count ++
-        }else{
-            holder.background.background = ContextCompat.getDrawable(context,R.drawable.shape_cat_3)
+        if (count == 0) {
+            holder.background.background =
+                ContextCompat.getDrawable(context, R.drawable.shape_cat_1)
+            count++
+        } else if (count == 1) {
+            holder.background.background =
+                ContextCompat.getDrawable(context, R.drawable.shape_cat_2)
+            count++
+        } else {
+            holder.background.background =
+                ContextCompat.getDrawable(context, R.drawable.shape_cat_3)
             count = 0
         }
 
     }
 
-    private fun showMenu(holder: MyViewHolder){
+    private fun showMenu(holder: MyViewHolder) {
 
-        val menu = PopupMenu(context,holder.background)
-        menu.menuInflater.inflate(R.menu.menu_category_row,menu.menu)
+        val menu = PopupMenu(context, holder.background)
+        menu.menuInflater.inflate(R.menu.menu_category_row, menu.menu)
 
         menu.setOnMenuItemClickListener {
-            when(it.itemId){
+            when (it.itemId) {
 
                 R.id.menu_category_row_delete -> mListener.onDelete(getItem(holder.adapterPosition))
                 R.id.menu_category_row_favorite -> Log.i("Porsche", "showMenu: favorite")
@@ -104,10 +114,10 @@ class CategoriesAdapter(val context:Activity, private val mListener:OnMenuItemSe
 
     }
 
-    private fun openNotesActivity(position:Int){
+    private fun openNotesActivity(position: Int) {
 
-        val intent = Intent(context,NoteActivity::class.java).apply {
-            putExtra(context.getString(R.string.category_key),getItem(position))
+        val intent = Intent(context, NoteActivity::class.java).apply {
+            putExtra(context.getString(R.string.category_key), getItem(position))
         }
 
         context.startActivity(intent)
@@ -115,7 +125,25 @@ class CategoriesAdapter(val context:Activity, private val mListener:OnMenuItemSe
 
     }
 
-    class MyViewHolder(itemList:View): RecyclerView.ViewHolder(itemList) {
+    private fun checkForPassword(cat: Category, position: Int) {
+
+        if (cat.isLocked) {
+
+            val fragmentInsertPassword = FragmentInsertPassword()
+            val bundle = Bundle()
+            bundle.putSerializable(context.getString(R.string.category_key),getItem(position))
+            fragmentInsertPassword.arguments = bundle
+
+            fragmentInsertPassword.show(fragManager, null)
+
+
+        } else {
+            openNotesActivity(position)
+        }
+
+    }
+
+    class MyViewHolder(itemList: View) : RecyclerView.ViewHolder(itemList) {
 
         val txtTitle: TextView = itemList.findViewById(R.id.row_txtTitle)
         val txtLastNote: TextView = itemList.findViewById(R.id.row_txtLastNote)
@@ -124,7 +152,7 @@ class CategoriesAdapter(val context:Activity, private val mListener:OnMenuItemSe
 
     }
 
-    class CategoryComparator: DiffUtil.ItemCallback<Category>() {
+    class CategoryComparator : DiffUtil.ItemCallback<Category>() {
         override fun areItemsTheSame(oldItem: Category, newItem: Category): Boolean {
             return oldItem === newItem
         }
@@ -138,12 +166,11 @@ class CategoriesAdapter(val context:Activity, private val mListener:OnMenuItemSe
 
     }
 
-    interface OnMenuItemSelectedListener{
+    interface OnMenuItemSelectedListener {
 
         fun onDelete(category: Category)
 
         fun onFavorite(category: Category)
 
     }
-
 }

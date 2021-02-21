@@ -71,7 +71,7 @@ class FragmentCategories : Fragment(), NewCategoryBottomSheet.CategoryCreatedLis
 
         //binder.categoriesRecyclerView.layoutManager = GridLayoutManager(requireContext(),2,GridLayoutManager.VERTICAL,false)
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
-        adapter = CategoriesAdapter(requireActivity(), this)
+        adapter = CategoriesAdapter(requireActivity(), this,childFragmentManager)
         recyclerView.adapter = adapter
         recyclerView.setHasFixedSize(true)
 
@@ -101,7 +101,6 @@ class FragmentCategories : Fragment(), NewCategoryBottomSheet.CategoryCreatedLis
 
     override fun onDelete(category: Category) {
         catViewModel.delete(category)
-        Toast.makeText(requireContext(), "excluded", Toast.LENGTH_LONG).show()
     }
 
     override fun onFavorite(category: Category) {
