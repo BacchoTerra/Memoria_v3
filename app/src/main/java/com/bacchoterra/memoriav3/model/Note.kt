@@ -6,12 +6,12 @@ import java.io.Serializable
 
 @Entity(tableName = "note_table")
 data class Note(
-    val noteTitle: String? = null,
+    val noteTitle: String = "",
     val noteBody: String,
     val category: String,
     val timeStamp: Long,
     val importance:Int = 0,
-    val photoUri:String? = null,
+    val photoUri:String = "",
     @PrimaryKey(autoGenerate = true) val id: Int = 0
 ):Serializable {
 

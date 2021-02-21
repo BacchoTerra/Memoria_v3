@@ -41,7 +41,7 @@ class AddNoteActivity : AppCompatActivity(), View.OnClickListener {
 
     //Category from bundle
     private lateinit var cat: Category
-    private var imageUri:String? = null
+    private var imageUri:String = ""
 
     //Note attributes
 
@@ -107,8 +107,8 @@ class AddNoteActivity : AppCompatActivity(), View.OnClickListener {
 
         supportActionBar?.let {
 
-            it.setDisplayHomeAsUpEnabled(true)
             it.title = null
+            it.setDisplayHomeAsUpEnabled(true)
 
         }
     }
@@ -159,7 +159,7 @@ class AddNoteActivity : AppCompatActivity(), View.OnClickListener {
                     )
 
                 }else{
-                    imageUri = null
+                    imageUri = ""
                 }
 
             }
@@ -257,7 +257,7 @@ class AddNoteActivity : AppCompatActivity(), View.OnClickListener {
                         )
                     )
                 }else{
-                    imageUri = null
+                    imageUri = ""
                 }
 
 
@@ -275,13 +275,9 @@ class AddNoteActivity : AppCompatActivity(), View.OnClickListener {
         //ImageUri is being defined inside handles for imagesCallback
 
         note = Note(title,body,cat.name,timeStamp,importance,imageUri)
-        Log.i("Porsche", "createNote: ${note.noteTitle} , ${note.photoUri} , ${note.timeStamp} , ${note.noteBody}, ${note.importance}")
-
-    }
-
-    override fun onNavigateUp(): Boolean {
+        setResult(RESULT_OK,Intent().also { it.putExtra(getString(R.string.note_key),note) })
         finish()
-        return true
+
     }
 
     override fun onRequestPermissionsResult(
@@ -292,6 +288,13 @@ class AddNoteActivity : AppCompatActivity(), View.OnClickListener {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
 
         EasyPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults, this)
+    }
+
+
+    override fun onSupportNavigateUp(): Boolean {
+
+        onBackPressed()
+        return false
     }
 
     override fun onClick(p0: View?) {

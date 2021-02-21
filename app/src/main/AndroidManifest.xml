@@ -16,9 +16,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.MemoriaV3">
-        <activity android:name=".view.NoteActivity"/>
-        <activity android:name=".view.AddNoteActivity" />
-        <activity android:name=".view.SettingsActivity" />
+        <activity android:name=".view.NoteActivity" android:parentActivityName=".view.MainActivity"/>
+        <activity android:name=".view.AddNoteActivity" android:parentActivityName=".view.NoteActivity"/>
+        <activity android:name=".view.SettingsActivity" android:parentActivityName=".view.MainActivity"/>
         <activity android:name=".view.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

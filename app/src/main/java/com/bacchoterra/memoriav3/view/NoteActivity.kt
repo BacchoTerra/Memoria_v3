@@ -12,10 +12,13 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.appcompat.widget.Toolbar
 import androidx.core.content.ContextCompat
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bacchoterra.memoriav3.MemoriaApplication
 import com.bacchoterra.memoriav3.R
+import com.bacchoterra.memoriav3.adapter.NotesAdapter
 import com.bacchoterra.memoriav3.databinding.ActivityNoteBinding
 import com.bacchoterra.memoriav3.model.Category
 import com.bacchoterra.memoriav3.model.Note
@@ -42,8 +45,11 @@ class NoteActivity : AppCompatActivity(), View.OnClickListener {
     private lateinit var resultLauncher: ActivityResultLauncher<Intent>
 
     //ViewModel
-    private lateinit var noteViewModel:NoteViewModel
-    private lateinit var catViewModel:CategoryViewModel
+    private lateinit var noteViewModel: NoteViewModel
+    private lateinit var catViewModel: CategoryViewModel
+
+    //RecyclerViewStuff
+    private lateinit var adapter:NotesAdapter
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -55,6 +61,8 @@ class NoteActivity : AppCompatActivity(), View.OnClickListener {
         initToolbar(category.name)
         initViewModels()
         handleCreatedNoteCallback()
+        buildRecyclerView()
+        retrieveNotes()
 
     }
 
@@ -110,7 +118,7 @@ class NoteActivity : AppCompatActivity(), View.OnClickListener {
 
                 if (result.resultCode == RESULT_OK) {
                     returnedNote = result.data?.extras?.get(getString(R.string.note_key)) as Note
-                    Log.i("Porsche", ": ${returnedNote.photoUri}")
+                    Log.i("Porsche", ":uri: ${returnedNote.photoUri} and body:  ${returnedNote.noteBody} and title : ${returnedNote.noteTitle}")
                     insertNewNote(returnedNote)
                 }
 
@@ -118,11 +126,37 @@ class NoteActivity : AppCompatActivity(), View.OnClickListener {
 
     }
 
-    private fun initViewModels(){
+    private fun initViewModels() {
 
-        noteViewModel = ViewModelProvider(this,NoteViewModelFactory((application as MemoriaApplication).noteRepository)).get(NoteViewModel::class.java)
-        catViewModel = ViewModelProvider(this,CategoryViewModelFactory((application as MemoriaApplication).catRepository)).get(CategoryViewModel::class.java)
+        noteViewModel = ViewModelProvider(
+            this,
+            NoteViewModelFactory((application as MemoriaApplication).noteRepository)
+        ).get(NoteViewModel::class.java)
+        catViewModel = ViewModelProvider(
+            this,
+            CategoryViewModelFactory((application as MemoriaApplication).catRepository)
+        ).get(CategoryViewModel::class.java)
 
+
+    }
+
+    private fun buildRecyclerView(){
+
+        adapter = NotesAdapter(this)
+        recyclerView.adapter = adapter
+        recyclerView.layoutManager = LinearLayoutManager(this)
+        recyclerView.setHasFixedSize(true)
+
+
+    }
+
+    private fun retrieveNotes(){
+
+        noteViewModel.getAllNotesFromCat(category.name).observe(this,{
+
+            adapter.submitList(it)
+
+        })
 
     }
 
