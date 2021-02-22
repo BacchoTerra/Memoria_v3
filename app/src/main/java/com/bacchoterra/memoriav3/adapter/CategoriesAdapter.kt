@@ -57,8 +57,6 @@ class CategoriesAdapter(
             holder.imageLocked.visibility = View.GONE
         }
 
-        dynamicChangeBackground(holder)
-
         holder.background.setOnLongClickListener {
             showMenu(holder)
             Log.i("Porsche", "onBindViewHolder: Long click")
@@ -71,24 +69,6 @@ class CategoriesAdapter(
 
         }
 
-
-    }
-
-    private fun dynamicChangeBackground(holder: MyViewHolder) {
-
-        if (count == 0) {
-            holder.background.background =
-                ContextCompat.getDrawable(context, R.drawable.shape_cat_1)
-            count++
-        } else if (count == 1) {
-            holder.background.background =
-                ContextCompat.getDrawable(context, R.drawable.shape_cat_2)
-            count++
-        } else {
-            holder.background.background =
-                ContextCompat.getDrawable(context, R.drawable.shape_cat_3)
-            count = 0
-        }
 
     }
 

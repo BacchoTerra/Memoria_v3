@@ -164,7 +164,12 @@ class NoteActivity : AppCompatActivity(), View.OnClickListener, SwipeUtil.OnSwip
 
         noteViewModel.getAllNotesFromCat(category.name).observe(this, {
 
-            adapter.submitList(it)
+            if(it.isEmpty()){
+                binder.activityNoteImageBlanck.visibility = View.VISIBLE
+            }else{
+                adapter.submitList(it)
+                binder.activityNoteImageBlanck.visibility = View.GONE
+            }
 
         })
 

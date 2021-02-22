@@ -24,12 +24,9 @@
     <color name="tabLayoutUnselectedTextColor">#ACADAD</color>
 
     <color name="successfulGreenColor">#006f3c</color>
-    <color name="catColor3">#87033866</color>
-    <color name="catColor2">#870F7985</color>
-    <color name="catColor1">#87E0A912</color>
-    <color name="noteImportance1">#BDDAFF</color>
-    <color name="noteImportance2">#83C6FF</color>
-    <color name="noteImportance0">#D3D7DC</color>
+    <color name="noteImportance1">#FF9F9F</color>
+    <color name="noteImportance2">#E4D09A</color>
+    <color name="noteImportance0">#BDDAFF</color>
 
 
 </resources>
