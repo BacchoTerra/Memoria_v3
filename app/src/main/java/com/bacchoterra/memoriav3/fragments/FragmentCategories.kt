@@ -1,6 +1,8 @@
 package com.bacchoterra.memoriav3.fragments
 
+import android.app.AlertDialog
 import android.content.Context
+import android.content.DialogInterface
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -100,7 +102,27 @@ class FragmentCategories : Fragment(), NewCategoryBottomSheet.CategoryCreatedLis
     }
 
     override fun onDelete(category: Category) {
-        catViewModel.delete(category)
+        showDeleteDialog(category)
+    }
+
+    private fun showDeleteDialog(category: Category) {
+        val builder = AlertDialog.Builder(requireContext())
+        builder.setTitle(R.string.delete_category)
+        builder.setMessage(R.string.permanent_action)
+
+        builder.setPositiveButton(R.string.delete) { dialogInterface: DialogInterface, i: Int ->
+
+            catViewModel.delete(category)
+        }
+
+        builder.setNegativeButton(R.string.cancel) { dialogInterface: DialogInterface, i: Int ->
+
+            dialogInterface.dismiss()
+        }
+
+        val alert = builder.create()
+        alert.show()
+
     }
 
     override fun onFavorite(category: Category) {

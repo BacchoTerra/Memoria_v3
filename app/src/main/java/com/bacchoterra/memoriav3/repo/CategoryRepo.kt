@@ -17,6 +17,10 @@ class CategoryRepo(private val mDao:CategoryDao) {
         mDao.delete(category)
     }
 
+    suspend fun update(category:Category){
+        mDao.update(category)
+    }
+
     suspend fun deleteAll(){
         mDao.deleteAll()
     }

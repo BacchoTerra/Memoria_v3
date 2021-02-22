@@ -26,6 +26,14 @@ class CategoryViewModel(val repo:CategoryRepo):ViewModel() {
         repo.deleteAll()
     }
 
+    fun updateName(cat:Category,name:String) = viewModelScope.launch{
+        repo.update(cat.copy(name = name))
+    }
+
+    fun updateLasNoteBody(cat:Category,lastNoteBody:String) = viewModelScope.launch{
+        repo.update(cat.copy(lastNoteBody = lastNoteBody))
+    }
+
 
 }
 

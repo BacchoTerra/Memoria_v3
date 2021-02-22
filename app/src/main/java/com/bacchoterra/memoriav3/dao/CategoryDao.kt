@@ -1,9 +1,6 @@
 package com.bacchoterra.memoriav3.dao
 
-import androidx.room.Dao
-import androidx.room.Delete
-import androidx.room.Insert
-import androidx.room.Query
+import androidx.room.*
 import com.bacchoterra.memoriav3.model.Category
 import kotlinx.coroutines.flow.Flow
 
@@ -15,6 +12,9 @@ interface CategoryDao {
 
     @Delete
     suspend fun delete(category:Category)
+
+    @Update
+    suspend fun update(category:Category)
 
     @Query("DELETE FROM categoria_table")
     suspend fun deleteAll()

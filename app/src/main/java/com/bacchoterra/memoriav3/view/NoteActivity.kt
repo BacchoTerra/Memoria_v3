@@ -84,6 +84,7 @@ class NoteActivity : AppCompatActivity(), View.OnClickListener, SwipeUtil.OnSwip
     private fun insertNewNote(note: Note) {
 
         noteViewModel.insert(note)
+        catViewModel.updateLasNoteBody(category,note.noteBody)
 
     }
 
@@ -208,6 +209,16 @@ class NoteActivity : AppCompatActivity(), View.OnClickListener, SwipeUtil.OnSwip
             .setCancelable(true)
         builder.setPositiveButton(android.R.string.yes) { dialog, which ->
             noteViewModel.delete(adapter.getNote(position))
+
+            if (position >0){
+
+                catViewModel.updateLasNoteBody(category,adapter.getNote(position-1).noteBody)
+
+            }else{
+                catViewModel.updateLasNoteBody(category,getString(R.string.no_last_note_body))
+            }
+
+
         }
 
         builder.setNegativeButton(android.R.string.cancel) { dialog, which ->

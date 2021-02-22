@@ -1,9 +1,9 @@
 package com.bacchoterra.memoriav3.adapter
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
-import android.util.DisplayMetrics
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -12,7 +12,6 @@ import android.widget.ImageView
 import android.widget.PopupMenu
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.core.content.ContextCompat
 import androidx.fragment.app.FragmentManager
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
@@ -45,22 +44,17 @@ class CategoriesAdapter(
 
         holder.txtTitle.text = cat.name
 
-        if (cat.lastNoteBody.isBlank()) {
-            holder.txtLastNote.text = context.getString(R.string.no_last_note_body)
-        } else {
-            holder.txtLastNote.text = cat.lastNoteBody
+        setLastNoteBody(holder,cat)
+
+
+        holder.imageMenu.setOnClickListener{
+            showMenu(holder)
         }
 
         if (cat.isLocked) {
             holder.imageLocked.visibility = View.VISIBLE
         } else {
             holder.imageLocked.visibility = View.GONE
-        }
-
-        holder.background.setOnLongClickListener {
-            showMenu(holder)
-            Log.i("Porsche", "onBindViewHolder: Long click")
-            true
         }
 
         holder.background.setOnClickListener {
@@ -74,7 +68,7 @@ class CategoriesAdapter(
 
     private fun showMenu(holder: MyViewHolder) {
 
-        val menu = PopupMenu(context, holder.background)
+        val menu = PopupMenu(context, holder.imageMenu)
         menu.menuInflater.inflate(R.menu.menu_category_row, menu.menu)
 
         menu.setOnMenuItemClickListener {
@@ -123,11 +117,30 @@ class CategoriesAdapter(
 
     }
 
+    @SuppressLint("SetTextI18n")
+    private fun setLastNoteBody(holder: MyViewHolder, category: Category){
+
+        if (category.lastNoteBody.isBlank()) {
+            holder.txtLastNote.text = context.getString(R.string.no_last_note_body)
+        } else {
+
+            if (category.lastNoteBody.length > 100){
+                holder.txtLastNote.text = "${category.lastNoteBody.substring(0, 100)} ..."
+            }else{
+                holder.txtLastNote.text = category.lastNoteBody
+            }
+        }
+
+
+
+    }
+
     class MyViewHolder(itemList: View) : RecyclerView.ViewHolder(itemList) {
 
         val txtTitle: TextView = itemList.findViewById(R.id.row_txtTitle)
         val txtLastNote: TextView = itemList.findViewById(R.id.row_txtLastNote)
         val imageLocked: ImageView = itemList.findViewById(R.id.row_imageIsLocked)
+        val imageMenu: ImageView = itemList.findViewById(R.id.row_imageMenu)
         var background: ConstraintLayout = itemList.findViewById(R.id.row_Background)
 
     }

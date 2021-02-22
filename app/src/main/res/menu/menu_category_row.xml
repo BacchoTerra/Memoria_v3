@@ -9,4 +9,9 @@
         android:title="@string/set_as_favorite"
         android:id="@+id/menu_category_row_favorite"/>
 
+    <item
+        android:title="@string/change_name"
+        android:id="@+id/menu_category_row_change_name"/>
+
+
 </menu>
